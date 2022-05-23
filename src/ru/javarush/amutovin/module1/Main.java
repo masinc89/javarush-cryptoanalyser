@@ -27,11 +27,14 @@ public class Main {
             String[] commandLineArray = insertCommandLine.split(" ");
             isValidcommandLine(commandLineArray);
 
-            if (command.equals("encript")){
+            if (command.equalsIgnoreCase("encript")){
                 Encript encript = new Encript(srcPath, dstPath, key);
                 encript.startEncript();
+            } else if (command.equalsIgnoreCase("decript")) {
+                Decript decript = new Decript(srcPath, dstPath, key);
+                decript.startDecript();
             }
-            System.out.println("Введите следующую команду:");
+            System.out.println("Введите следующую команду[exit - выход]:");
             insertCommandLine = console.nextLine();
         }
     }
@@ -50,14 +53,18 @@ public class Main {
 
         try {
              key = Integer.parseInt(commandLineArray[3]);
+             if (key < 1 || key > 123) {
+                 System.err.println("Ключ в четвертом параметре должен быть от 1 до 123 включительно");
+                 System.exit(2);
+             }
         } catch (NumberFormatException e){
             System.err.println("Введенный четвертый аргумент не целое число");
-            System.exit(2);
+            System.exit(3);
         }
 
         if (!command.equalsIgnoreCase("encript") && !command.equalsIgnoreCase("decript")) {
             System.err.println("Первый аргумент введен некорректно, принимаемые параметры \"enсript\" или \"decript\"");
-            System.exit(3);
+            System.exit(4);
         }
 
         try {
@@ -65,17 +72,17 @@ public class Main {
         } catch (InvalidPathException e) {
             System.err.println("Переданный путь " + srcPath + " не является путем к файлу!");
 
-            System.exit(4);
+            System.exit(5);
         }
 
         if (!Files.isRegularFile(srcPath)) {
             System.err.println("Переданный путь srcPath не является файлом");
-            System.exit(7);
+            System.exit(6);
         }
 
         if (!Files.exists(srcPath)) {
             System.err.println("src файл не существует");
-            System.exit(8);
+            System.exit(7);
         }
 
         try {
@@ -85,15 +92,15 @@ public class Main {
             }
         } catch (InvalidPathException e) {
             System.err.println("Переданный путь "+ dstPath + " не является путем к файлу!");
-            System.exit(5);
+            System.exit(8);
         } catch (IOException e) {
             System.err.println("произошла ошибка при создании файла" + dstPath);
-            System.exit(6);
+            System.exit(9);
         }
 
         if (!Files.isRegularFile(dstPath)) {
             System.err.println("Переданный путь dstPath не является файлом");
-            System.exit(9);
+            System.exit(10);
         }
 
     }
