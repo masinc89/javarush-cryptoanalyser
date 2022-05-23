@@ -47,12 +47,13 @@ public class Encript {
         } catch (FileNotFoundException e) {
             System.err.println("Файл не существует" + e.getMessage());
         } catch (IOException e) {
-            System.err.println("ошибка ввода вывода при работает с src файлом");
+            System.err.println("ошибка ввода вывода при работает с src файлом" + e.getMessage());
         }
     }
 
     public char getEncriptLiteral(char srcLiteral) {
         char encriptLiteral = srcLiteral;
+
         for (int i = 0; i < alphabet.length; i++) {
             if (srcLiteral == alphabet[i]) {
                 int encriptLiteralIndex = (i + key) % 124;
