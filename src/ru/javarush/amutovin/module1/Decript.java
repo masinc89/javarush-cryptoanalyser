@@ -39,7 +39,7 @@ public class Decript {
                 for (int i = 0; i < alphabet.length; i++) {
                     dstBuffer[i] = getDecriptLiteral(srcBuffer[i]);
                 }
-                dstFileWriter.write(dstBuffer);
+                dstFileWriter.write(dstBuffer,0, count);
                 dstFileWriter.flush();
                 System.out.println("Расшифровка успешно выполнена");
             }

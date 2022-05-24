@@ -41,9 +41,8 @@ public class Main {
 
     public static void isValidcommandLine(String[] commandLineArray) {
 
-        if (commandLineArray.length != 4) {
-            System.err.println("Проверьте количество переданных аргументов. Их должно быть 4.");
-            System.exit(1);
+        if (commandLineArray[0].equalsIgnoreCase("encript")) {
+            checkEncript(commandLineArray);
         }
 
         command = commandLineArray[0];
@@ -102,6 +101,10 @@ public class Main {
             System.err.println("Переданный путь dstPath не является файлом");
             System.exit(10);
         }
+
+    }
+
+    public static void checkEncript(String[] commandLineArray) {
 
     }
 

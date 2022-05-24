@@ -40,10 +40,11 @@ public class Encript {
                     dstBuffer[i] = getEncriptLiteral(srcBuffer[i]);
                 }
 
-                dstfileWriter.write(dstBuffer);
+                dstfileWriter.write(dstBuffer, 0, count);
             }
             dstfileWriter.flush();
             System.out.println("Зашифровано");
+
         } catch (FileNotFoundException e) {
             System.err.println("Файл не существует" + e.getMessage());
         } catch (IOException e) {
