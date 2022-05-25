@@ -11,15 +11,6 @@ public class Encript {
     private Path dstPath;
     private int key;
 
-    private static final char[] alphabet = {'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з',
-            'и', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ',
-            'ъ', 'ы', 'ь', 'э', 'ю', 'я', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З',
-            'И', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ',
-            'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-            'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E','F', 'G', 'H', 'I', 'J',
-            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '.', ',', '«', '»', '"',
-            '\'', ':', '!', '?', ' '};
-
     public Encript(Path srcPath, Path dstPath, int key) {
         this.srcPath = srcPath;
         this.dstPath = dstPath;
@@ -54,12 +45,11 @@ public class Encript {
 
     public char getEncriptLiteral(char srcLiteral) {
         char encriptLiteral = srcLiteral;
-
-        for (int i = 0; i < alphabet.length; i++) {
-            if (srcLiteral == alphabet[i]) {
-                int encriptLiteralIndex = (i + key) % 124;
-                encriptLiteral =  alphabet[encriptLiteralIndex];
-            }
+        Alphabet alphabet = Alphabet.alphabet;
+        int srcIndex = alphabet.getIndexLiteralFromAlphabet(srcLiteral);
+        if (srcIndex != -1) {
+            int encriptLiteralIndex = (srcIndex + key) % 124;
+            encriptLiteral = alphabet.getCharLiteralFromAlphabet(encriptLiteralIndex);
         }
         return encriptLiteral;
     }
