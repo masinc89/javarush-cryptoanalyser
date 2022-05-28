@@ -98,9 +98,11 @@
 
 ----
 
-###Список используемых классов:  
+### Список используемых классов:  
+
 1. ru/javarush/amutovin/module1/Main - главный класс. Также содержит парсинг входных параметров.
-2. ru/javarush/amutovin/module1/Alphabet - класс Singleton. В нем содержится массив символов. Есть 3 метода:  
+2. ru/javarush/amutovin/module1/Alphabet - класс Singleton. В нем содержится массив символов.  
+   Есть 3 метода:  
    getCharLiteralFromAlphabet - возвращает символ по индексу.  
    getIndexLiteralFromAlphabet - возвращает индекс по символу.  
    getCountLiteralinAlphabet - возвращает количество символов в массиве.  
