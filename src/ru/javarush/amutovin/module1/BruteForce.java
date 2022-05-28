@@ -21,7 +21,7 @@ public class BruteForce {
         int key = searchKey();
 
         if (key == 0) {
-            decriptStatus = "Не удалось обнаружить ключ, попробуйте написать больше текста в файл" + srcPath;
+            decriptStatus = "Не удалось обнаружить ключ, не найдено ни одного совпадения с популярными словами";
         } else {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(srcPath.toFile()));
                  BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(dstPath.toFile()))) {
@@ -33,7 +33,7 @@ public class BruteForce {
                     bufferedWriter.newLine();
                 }
                 bufferedWriter.flush();
-                decriptStatus = "Расшифровка методом Brute Force выполнена удачно";
+                decriptStatus = "Расшифровка методом Brute Force успешно выполнена";
 
             } catch (FileNotFoundException e) {
                 throw new FileProcessingException("Не найден файл " + srcPath, e);

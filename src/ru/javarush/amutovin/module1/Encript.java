@@ -36,7 +36,7 @@ public class Encript {
             }
             dstfileWriter.flush();
 
-            return "Зашифровано";
+            return "Шифрование успешно выполнено";
 
         } catch (FileNotFoundException e) {
             throw new FileProcessingException("Файл не существует", e);
