@@ -13,16 +13,21 @@ public class Main {
     static int key;
 
     public static void main(String[] args) {
-
+        String status = "";
         parseArgs(args);
 
         if ("encript".equals(command)) {
             Encript encript = new Encript(srcPath, dstPath, key);
-            encript.startEncript();
+            status = encript.startEncript();
         } else if ("decript".equals(command)) {
             Decript decript = new Decript(srcPath, dstPath, key);
-            decript.startDecript();
+            status = decript.startDecript();
+        } else if ("bruteforce".equals(command)){
+            BruteForce bruteForce = new BruteForce(srcPath, dstPath);
+            status = bruteForce.startDecript();
+
         }
+        System.out.println(status);
 
     }
 

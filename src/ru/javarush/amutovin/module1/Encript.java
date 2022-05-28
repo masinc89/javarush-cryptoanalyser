@@ -17,7 +17,8 @@ public class Encript {
         this.key = key;
     }
 
-    public void startEncript() {
+    public String startEncript() {
+
         try (FileReader srcFileReader = new FileReader(srcPath.toFile());
              FileWriter dstfileWriter = new FileWriter(dstPath.toFile())) {
 
@@ -34,13 +35,15 @@ public class Encript {
                 dstfileWriter.write(dstBuffer, 0, count);
             }
             dstfileWriter.flush();
-            System.out.println("Зашифровано");
+
+            return "Зашифровано";
 
         } catch (FileNotFoundException e) {
-            System.err.println("Файл не существует" + e.getMessage());
+            throw new IllegalArgumentException("Файл не существует" + e.getMessage());
         } catch (IOException e) {
-            System.err.println("ошибка ввода вывода при работает с src файлом" + e.getMessage());
+            throw new IllegalArgumentException("ошибка ввода вывода при работает с src файлом" + e.getMessage());
         }
+
     }
 
     public char getEncriptLiteral(char srcLiteral) {

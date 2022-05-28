@@ -17,7 +17,7 @@ public class Decript {
         this.key = key;
     }
 
-    public void startDecript() {
+    public String startDecript() {
         try (FileReader srcFileReader = new FileReader(srcPath.toFile());
              FileWriter dstFileWriter = new FileWriter(dstPath.toFile())) {
 
@@ -32,13 +32,13 @@ public class Decript {
                 }
                 dstFileWriter.write(dstBuffer, 0, count);
                 dstFileWriter.flush();
-                System.out.println("Расшифровка успешно выполнена");
             }
+            return "Расшифровка успешно выполнена";
 
         } catch (FileNotFoundException e) {
-            System.err.println("Файл не существует" + e.getMessage());
+            throw new IllegalArgumentException("Файл не существует" + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException("Ошибка работы с файлом");
         }
 
     }

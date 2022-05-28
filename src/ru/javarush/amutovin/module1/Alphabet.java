@@ -25,6 +25,10 @@ public class Alphabet {
         }
     }
 
+    public int getCountLiteralinAlphabet(){
+        return alphabetArray.length;
+    }
+
     public int getIndexLiteralFromAlphabet(char literal) {
         int index = -1;
 
