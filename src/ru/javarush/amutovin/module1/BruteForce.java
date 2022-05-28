@@ -30,16 +30,19 @@ public class BruteForce {
                     String readLine = bufferedReader.readLine();
                     readLine = getDecriptLine(readLine, key);
                     bufferedWriter.write(readLine);
+                    bufferedWriter.newLine();
                 }
                 bufferedWriter.flush();
                 decriptStatus = "Расшифровка методом Brute Force выполнена удачно";
+
             } catch (FileNotFoundException e) {
-                throw new IllegalArgumentException("Не найден файл " + srcPath);
+                throw new FileProcessingException("Не найден файл " + srcPath, e);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new FileProcessingException("Ошибка I/O", e);
             }
         }
         return decriptStatus;
+
     }
 
 

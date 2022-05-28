@@ -36,19 +36,20 @@ public class Decript {
             return "Расшифровка успешно выполнена";
 
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("Файл не существует" + e.getMessage());
+            throw new FileProcessingException("Файл не существует", e);
         } catch (IOException e) {
-            throw new IllegalArgumentException("Ошибка работы с файлом");
+            throw new FileProcessingException("Ошибка работы с файлом", e);
         }
 
     }
 
     private char getDecriptLiteral(char encriptLiteral) {
         Alphabet alphabet = Alphabet.alphabet;
+        int alphabetCount = alphabet.getCountLiteralinAlphabet();
         char decriptLiteral = encriptLiteral;
         int indexEncriptLiteral = alphabet.getIndexLiteralFromAlphabet(encriptLiteral);
         if (indexEncriptLiteral != -1) {
-            int decriptLiteralIndex = (124 + indexEncriptLiteral - key) % 124;
+            int decriptLiteralIndex = (alphabetCount + indexEncriptLiteral - key) % alphabetCount;
             decriptLiteral = alphabet.getCharLiteralFromAlphabet(decriptLiteralIndex);
         }
         return decriptLiteral;

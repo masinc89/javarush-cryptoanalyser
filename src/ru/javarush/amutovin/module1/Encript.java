@@ -39,9 +39,9 @@ public class Encript {
             return "Зашифровано";
 
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("Файл не существует" + e.getMessage());
+            throw new FileProcessingException("Файл не существует", e);
         } catch (IOException e) {
-            throw new IllegalArgumentException("ошибка ввода вывода при работает с src файлом" + e.getMessage());
+            throw new FileProcessingException("Ошибка ввода вывода при работе с src файлом", e);
         }
 
     }
@@ -49,9 +49,10 @@ public class Encript {
     public char getEncriptLiteral(char srcLiteral) {
         char encriptLiteral = srcLiteral;
         Alphabet alphabet = Alphabet.alphabet;
+        int alphabetCount = alphabet.getCountLiteralinAlphabet();
         int srcIndex = alphabet.getIndexLiteralFromAlphabet(srcLiteral);
         if (srcIndex != -1) {
-            int encriptLiteralIndex = (srcIndex + key) % 124;
+            int encriptLiteralIndex = (srcIndex + key) % alphabetCount;
             encriptLiteral = alphabet.getCharLiteralFromAlphabet(encriptLiteralIndex);
         }
         return encriptLiteral;
