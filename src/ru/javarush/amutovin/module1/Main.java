@@ -78,7 +78,7 @@ public class Main {
         }
 
         if (Files.notExists(filePath) && !createFileIfNotExists) {
-            throw new FileProcessingException("Файл " + filePath + " не существует!");
+            throw new FileProcessingException("Файл "  +filePath.toAbsolutePath() + " не существует!");
         } else if (Files.notExists(filePath) && createFileIfNotExists) {
 
             try {
@@ -90,7 +90,7 @@ public class Main {
         }
 
         if (!Files.isRegularFile(filePath)) {
-            throw new FileProcessingException("Переданный путь " + filePath + " не является файлом!");
+            throw new FileProcessingException("Переданный путь " + filePath.toAbsolutePath() + " не является файлом!");
         }
 
         return filePath;
