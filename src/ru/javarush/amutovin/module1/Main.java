@@ -77,6 +77,7 @@ public class Main {
             throw new FileProcessingException("Переданный путь " + file + " не может быть преобразован в тип Path", e);
         }
 
+
         if (Files.notExists(filePath) && !createFileIfNotExists) {
             throw new FileProcessingException("Файл "  +filePath.toAbsolutePath() + " не существует!");
         } else if (Files.notExists(filePath) && createFileIfNotExists) {
@@ -92,7 +93,6 @@ public class Main {
         if (!Files.isRegularFile(filePath)) {
             throw new FileProcessingException("Переданный путь " + filePath.toAbsolutePath() + " не является файлом!");
         }
-
         return filePath;
     }
 

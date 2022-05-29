@@ -4,9 +4,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
 public class Encript {
+    private static final int indexNotFound = -1;
     private Path srcPath;
     private Path dstPath;
     private int key;
@@ -19,8 +21,8 @@ public class Encript {
 
     public String startEncript() {
 
-        try (FileReader srcFileReader = new FileReader(srcPath.toFile());
-             FileWriter dstfileWriter = new FileWriter(dstPath.toFile())) {
+        try (FileReader srcFileReader = new FileReader(srcPath.toFile(), StandardCharsets.UTF_8);
+             FileWriter dstfileWriter = new FileWriter(dstPath.toFile(), StandardCharsets.UTF_8)) {
 
             char[] srcBuffer = new char[300];
             char[] dstBuffer = new char[300];
@@ -51,7 +53,7 @@ public class Encript {
         Alphabet alphabet = Alphabet.alphabet;
         int alphabetCount = alphabet.getCountLiteralinAlphabet();
         int srcIndex = alphabet.getIndexLiteralFromAlphabet(srcLiteral);
-        if (srcIndex != -1) {
+        if (srcIndex != indexNotFound) {
             int encriptLiteralIndex = (srcIndex + key) % alphabetCount;
             encriptLiteral = alphabet.getCharLiteralFromAlphabet(encriptLiteralIndex);
         }

@@ -1,7 +1,9 @@
 package ru.javarush.amutovin.module1;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +11,7 @@ public class BruteForce {
     private Path srcPath;
     private Path dstPath;
 
-    private static final String exampleWords = "src/ru/javarush/amutovin/module1/ExampleText.txt";
+    private static final String exampleWords = "ExampleText.txt";
 
     public BruteForce(Path srcPath, Path dstPath) {
         this.srcPath = srcPath;
@@ -23,8 +25,8 @@ public class BruteForce {
         if (key == 0) {
             decriptStatus = "Не удалось обнаружить ключ, не найдено ни одного совпадения с популярными словами";
         } else {
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(srcPath.toFile()));
-                 BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(dstPath.toFile()))) {
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(srcPath.toFile(), StandardCharsets.UTF_8));
+                 BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(dstPath.toFile(), StandardCharsets.UTF_8))) {
 
                 while (bufferedReader.ready()) {
                     String readLine = bufferedReader.readLine();
@@ -51,7 +53,7 @@ public class BruteForce {
         HashMap<Integer, Integer> countEntriesByKey = new HashMap<>();
 
         for (int key = 0; key < alphabet.getCountLiteralinAlphabet(); key++) {
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(srcPath.toFile()))) {
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(srcPath.toFile(), StandardCharsets.UTF_8))) {
                 while (bufferedReader.ready()) {
                     String readEncriptLine = bufferedReader.readLine();
                     String decriptLine = getDecriptLine(readEncriptLine, key);
@@ -98,12 +100,14 @@ public class BruteForce {
     }
 
     private boolean isContaintWord(String word) {
+        InputStream exampleWordStream = getClass().getResourceAsStream(exampleWords);
         boolean isContaint = false;
+
         if (word.length() > 6) {
             word = word.substring(0, 5);
         }
 
-        try (BufferedReader readerExampleWordFile = new BufferedReader(new FileReader(exampleWords))) {
+        try (BufferedReader readerExampleWordFile = new BufferedReader(new InputStreamReader(exampleWordStream, StandardCharsets.UTF_8))) {
             while (readerExampleWordFile.ready()) {
                 if (isContaint) {
                     break;
@@ -119,10 +123,8 @@ public class BruteForce {
             }
             return isContaint;
 
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("Файл с массивом популярных слов не найден");
         } catch (IOException e) {
-            throw new IllegalArgumentException("Ошибка IO в файле самых популярных файлов");
+            throw new FileProcessingException("Ошибка IO в файле самых популярных файлов", e);
         }
 
     }

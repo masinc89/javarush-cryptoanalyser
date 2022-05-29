@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
 public class Decript {
@@ -18,8 +19,8 @@ public class Decript {
     }
 
     public String startDecript() {
-        try (FileReader srcFileReader = new FileReader(srcPath.toFile());
-             FileWriter dstFileWriter = new FileWriter(dstPath.toFile())) {
+        try (FileReader srcFileReader = new FileReader(srcPath.toFile(), StandardCharsets.UTF_8);
+             FileWriter dstFileWriter = new FileWriter(dstPath.toFile(), StandardCharsets.UTF_8)) {
 
             char[] srcBuffer = new char[300];
             char[] dstBuffer = new char[300];
