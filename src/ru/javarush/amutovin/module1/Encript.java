@@ -8,15 +8,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
 public class Encript {
-    private static final int indexNotFound = -1;
+    private static final int INDEX_NOT_FOUND_IN_ALPHABET = -1;
+    private static final int LENGTH_BUFFER_ARRAY = 500;
     private Path srcPath;
     private Path dstPath;
     private int key;
+    private Alphabet alphabet;
 
     public Encript(Path srcPath, Path dstPath, int key) {
         this.srcPath = srcPath;
         this.dstPath = dstPath;
         this.key = key;
+        this.alphabet = Alphabet.getAlphabet();
     }
 
     public String startEncript() {
@@ -24,8 +27,8 @@ public class Encript {
         try (FileReader srcFileReader = new FileReader(srcPath.toFile(), StandardCharsets.UTF_8);
              FileWriter dstfileWriter = new FileWriter(dstPath.toFile(), StandardCharsets.UTF_8)) {
 
-            char[] srcBuffer = new char[300];
-            char[] dstBuffer = new char[300];
+            char[] srcBuffer = new char[LENGTH_BUFFER_ARRAY];
+            char[] dstBuffer = new char[LENGTH_BUFFER_ARRAY];
 
             while (srcFileReader.ready()) {
                 int count = srcFileReader.read(srcBuffer);
@@ -38,22 +41,21 @@ public class Encript {
             }
             dstfileWriter.flush();
 
-            return "Шифрование успешно выполнено";
+            return "Encryption completed successfully";
 
         } catch (FileNotFoundException e) {
-            throw new FileProcessingException("Файл не существует", e);
+            throw new FileProcessingException("File not found", e);
         } catch (IOException e) {
-            throw new FileProcessingException("Ошибка ввода вывода при работе с src файлом", e);
+            throw new FileProcessingException("I/O ERROR", e);
         }
 
     }
 
     public char getEncriptLiteral(char srcLiteral) {
         char encriptLiteral = srcLiteral;
-        Alphabet alphabet = Alphabet.alphabet;
         int alphabetCount = alphabet.getCountLiteralinAlphabet();
         int srcIndex = alphabet.getIndexLiteralFromAlphabet(srcLiteral);
-        if (srcIndex != indexNotFound) {
+        if (srcIndex != INDEX_NOT_FOUND_IN_ALPHABET) {
             int encriptLiteralIndex = (srcIndex + key) % alphabetCount;
             encriptLiteral = alphabet.getCharLiteralFromAlphabet(encriptLiteralIndex);
         }

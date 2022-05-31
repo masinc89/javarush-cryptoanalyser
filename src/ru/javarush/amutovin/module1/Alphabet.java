@@ -10,10 +10,17 @@ public class Alphabet {
             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '.', ',', '«', '»', '"',
             '\'', ':', '!', '?', ' '};
 
-    public static Alphabet alphabet = new Alphabet();
+    private static Alphabet alphabet;
 
     private Alphabet() {
 
+    }
+
+    public static Alphabet getAlphabet(){
+        if (alphabet == null) {
+            alphabet = new Alphabet();
+        }
+        return alphabet;
     }
 
     public char getCharLiteralFromAlphabet(int index) {
@@ -21,7 +28,7 @@ public class Alphabet {
         try {
             return alphabetArray[index];
         } catch (IndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Символ не найден по индексу" + index);
+            throw new IllegalArgumentException("Symbol not found at index" + index);
         }
     }
 

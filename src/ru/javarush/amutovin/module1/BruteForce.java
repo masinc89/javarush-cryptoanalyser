@@ -8,14 +8,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BruteForce {
+    private static final int INDEX_NOT_FOUND_IN_ALPHABET = -1;
+    private static final String SEPARATOR = ",";
+    private static final int MAX_WORD_LENGTH = 6;
+    private static final int GET_MAX_WORD_FROM_INDEX_LENGTH = 5;
     private Path srcPath;
     private Path dstPath;
-
+    private Alphabet alphabet;
     private static final String exampleWords = "ExampleText.txt";
 
     public BruteForce(Path srcPath, Path dstPath) {
         this.srcPath = srcPath;
         this.dstPath = dstPath;
+        this.alphabet = Alphabet.getAlphabet();
     }
 
     public String startDecript() {
@@ -23,7 +28,7 @@ public class BruteForce {
         int key = searchKey();
 
         if (key == 0) {
-            decriptStatus = "Не удалось обнаружить ключ, не найдено ни одного совпадения с популярными словами";
+            decriptStatus = "Could not find the key, no matches were found with popular words";
         } else {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(srcPath.toFile(), StandardCharsets.UTF_8));
                  BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(dstPath.toFile(), StandardCharsets.UTF_8))) {
@@ -35,12 +40,12 @@ public class BruteForce {
                     bufferedWriter.newLine();
                 }
                 bufferedWriter.flush();
-                decriptStatus = "Расшифровка методом Brute Force успешно выполнена";
+                decriptStatus = "Brute Force decryption completed successfully";
 
             } catch (FileNotFoundException e) {
-                throw new FileProcessingException("Не найден файл " + srcPath, e);
+                throw new FileProcessingException("File not found " + srcPath, e);
             } catch (IOException e) {
-                throw new FileProcessingException("Ошибка I/O", e);
+                throw new FileProcessingException("I/O error", e);
             }
         }
         return decriptStatus;
@@ -49,7 +54,6 @@ public class BruteForce {
 
 
     private int searchKey() {
-        Alphabet alphabet = Alphabet.alphabet;
         HashMap<Integer, Integer> countEntriesByKey = new HashMap<>();
 
         for (int key = 0; key < alphabet.getCountLiteralinAlphabet(); key++) {
@@ -57,7 +61,7 @@ public class BruteForce {
                 while (bufferedReader.ready()) {
                     String readEncriptLine = bufferedReader.readLine();
                     String decriptLine = getDecriptLine(readEncriptLine, key);
-                    decriptLine = decriptLine.replaceAll(",", "");
+                    decriptLine = decriptLine.replaceAll(SEPARATOR, "");
                     String[] decriptLineArray = decriptLine.split(" ");
 
                     for (int i = 0; i < decriptLineArray.length; i++) {
@@ -72,7 +76,7 @@ public class BruteForce {
                 }
 
             } catch (FileNotFoundException e) {
-                throw new IllegalArgumentException("Не найдет шифрованный файл " + srcPath);
+                throw new IllegalArgumentException("Can't find encrypted file " + srcPath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -83,14 +87,14 @@ public class BruteForce {
 
     private String getDecriptLine(String encriptLine, int key) {
         char[] decriptArray = encriptLine.toCharArray();
-        Alphabet alphabet = Alphabet.alphabet;
+        int alphabetCount = alphabet.getCountLiteralinAlphabet();
 
         for (int i = 0; i < decriptArray.length; i++) {
             char decriptLiteral = decriptArray[i];
             int indexEncriptLiteral = alphabet.getIndexLiteralFromAlphabet(decriptArray[i]);
 
-            if (indexEncriptLiteral != -1) {
-                int decriptLiteralIndex = (124 + indexEncriptLiteral - key) % 124;
+            if (indexEncriptLiteral != INDEX_NOT_FOUND_IN_ALPHABET) {
+                int decriptLiteralIndex = (alphabetCount + indexEncriptLiteral - key) % alphabetCount;
                 decriptLiteral = alphabet.getCharLiteralFromAlphabet(decriptLiteralIndex);
             }
             decriptArray[i] = decriptLiteral;
@@ -103,8 +107,8 @@ public class BruteForce {
         InputStream exampleWordStream = getClass().getResourceAsStream(exampleWords);
         boolean isContaint = false;
 
-        if (word.length() > 6) {
-            word = word.substring(0, 5);
+        if (word.length() > MAX_WORD_LENGTH) {
+            word = word.substring(0, GET_MAX_WORD_FROM_INDEX_LENGTH);
         }
 
         try (BufferedReader readerExampleWordFile = new BufferedReader(new InputStreamReader(exampleWordStream, StandardCharsets.UTF_8))) {
@@ -124,7 +128,7 @@ public class BruteForce {
             return isContaint;
 
         } catch (IOException e) {
-            throw new FileProcessingException("Ошибка IO в файле самых популярных файлов", e);
+            throw new FileProcessingException("I/O error in the file with the most popular files", e);
         }
 
     }
@@ -138,10 +142,6 @@ public class BruteForce {
                 maxValues = values;
                 key = pair.getKey();
             }
-        }
-        if (key == 0) {
-            System.out.println("элемент не найден");
-            System.exit(0);
         }
         return key;
     }
