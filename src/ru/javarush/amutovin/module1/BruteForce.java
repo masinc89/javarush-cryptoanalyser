@@ -78,7 +78,7 @@ public class BruteForce {
             } catch (FileNotFoundException e) {
                 throw new IllegalArgumentException("Can't find encrypted file " + srcPath);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new FileProcessingException("I/O error", e);
             }
 
         }
