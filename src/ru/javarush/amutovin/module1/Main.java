@@ -10,27 +10,29 @@ public class Main {
     private static final String DECRIPT = "decript";
     private static final String BRUTEFORCE = "bruteforce";
     private static final String FILE_FORMAT = ".txt";
+    private static final String STATUS = "successfully";
+    private static final int MAX_PARAMETER_COUNT = 4;
+    private static final int MIN_PARAMETER_COUNT = 3;
     static String command;
     static Path srcPath;
     static Path dstPath;
     static int key;
 
     public static void main(String[] args) {
-        String status = "";
         parseArgs(args);
 
         if (ENCRIPT.equals(command)) {
             Encript encript = new Encript(srcPath, dstPath, key);
-            status = encript.startEncript();
+            encript.startEncript();
         } else if (DECRIPT.equals(command)) {
             Decript decript = new Decript(srcPath, dstPath, key);
-            status = decript.startDecript();
+            decript.startDecript();
         } else if (BRUTEFORCE.equals(command)) {
             BruteForce bruteForce = new BruteForce(srcPath, dstPath);
-            status = bruteForce.startDecript();
+            bruteForce.startDecript();
 
         }
-        System.out.println(status);
+        System.out.println(STATUS);
 
     }
 
@@ -38,7 +40,7 @@ public class Main {
         Alphabet alphabet = Alphabet.getAlphabet();
         int alphabetCount = alphabet.getCountLiteralinAlphabet();
 
-        if (commandLineArray.length >= 3 && commandLineArray.length <= 4) {
+        if (commandLineArray.length >= MIN_PARAMETER_COUNT && commandLineArray.length <= MAX_PARAMETER_COUNT) {
             command = commandLineArray[0];
 
             if (!ENCRIPT.equals(command) && !DECRIPT.equals(command) && !BRUTEFORCE.equals(command)) {

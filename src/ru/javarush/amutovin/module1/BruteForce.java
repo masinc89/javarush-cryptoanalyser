@@ -12,10 +12,11 @@ public class BruteForce {
     private static final String SEPARATOR = ",";
     private static final int MAX_WORD_LENGTH = 6;
     private static final int GET_MAX_WORD_FROM_INDEX_LENGTH = 5;
+    private static final String exampleWords = "ExampleText.txt";
     private Path srcPath;
     private Path dstPath;
     private Alphabet alphabet;
-    private static final String exampleWords = "ExampleText.txt";
+
 
     public BruteForce(Path srcPath, Path dstPath) {
         this.srcPath = srcPath;
@@ -28,7 +29,8 @@ public class BruteForce {
         int key = searchKey();
 
         if (key == 0) {
-            decriptStatus = "Could not find the key, no matches were found with popular words";
+            throw new IllegalArgumentException("Could not find the key, no matches were found with popular words");
+
         } else {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(srcPath.toFile(), StandardCharsets.UTF_8));
                  BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(dstPath.toFile(), StandardCharsets.UTF_8))) {

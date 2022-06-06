@@ -25,11 +25,10 @@ public class Alphabet {
 
     public char getCharLiteralFromAlphabet(int index) {
 
-        try {
-            return alphabetArray[index];
-        } catch (IndexOutOfBoundsException e) {
+        if (index >= getCountLiteralinAlphabet() ){
             throw new IllegalArgumentException("Symbol not found at index" + index);
         }
+            return alphabetArray[index];
     }
 
     public int getCountLiteralinAlphabet(){

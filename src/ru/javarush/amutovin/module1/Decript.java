@@ -22,7 +22,7 @@ public class Decript {
         this.alphabet = Alphabet.getAlphabet();
     }
 
-    public String startDecript() {
+    public void startDecript() {
         try (FileReader srcFileReader = new FileReader(srcPath.toFile(), StandardCharsets.UTF_8);
              FileWriter dstFileWriter = new FileWriter(dstPath.toFile(), StandardCharsets.UTF_8)) {
 
@@ -38,7 +38,7 @@ public class Decript {
                 dstFileWriter.write(dstBuffer, 0, count);
                 dstFileWriter.flush();
             }
-            return "Decryption completed successfully";
+
 
         } catch (FileNotFoundException e) {
             throw new FileProcessingException("File not found", e);
